@@ -87,11 +87,18 @@ public struct MovingNumbersView<Element: View>: View {
         }
         
         // All elements are by default vertically centered
+        let applyTransition = !(numberOfDecimalPlaces == 0 && allElements.count == 1)
+
         let finalResultView = HStack(alignment: .center, spacing: 0) {
             ForEach(allElements) { (element) in
-                self.viewFromElement(element)
-                    .transition(self.elementTransition)
-                    .animation(self.digitStackAnimation)
+                if applyTransition {
+                    self.viewFromElement(element)
+                        .transition(self.elementTransition)
+                        .animation(self.digitStackAnimation)
+                } else {
+                    self.viewFromElement(element)
+                        .animation(self.digitStackAnimation)
+                }
             }
         }
         .frame(width: fixedWidth, alignment: .leading)
